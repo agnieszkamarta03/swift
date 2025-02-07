@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine # Or choose your preferred PostgreSQL version
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+
+  app:
+    image: app:1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb # Connect to 'db' service, port 5432, database 'mydb'
+      SPRING_DATASOURCE_USERNAME: dbuser # Database username
+      SPRING_DATASOURCE_PASSWORD: dbpassword # Database password
