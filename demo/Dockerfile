@@ -14,7 +14,7 @@ RUN mvn dependency:go-offline -B -e
 COPY src ./src
 
 # Package the application
-RUN mvn package -DskipTests # Skipping tests for faster build in Docker, you might remove -DskipTests for production builds
+RUN mvn package
 
 # --- Stage 2: Runtime Stage ---
 FROM eclipse-temurin:21-jammy
@@ -23,7 +23,7 @@ WORKDIR /app
 
 # Copy the packaged JAR file from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
-COPY --from=builder /
+COPY --from=builder /app/Interns_2025_SWIFT_CODES.xlsx ./Interns_2025_SWIFT_CODES.xlsx
 
 # Command to run the Spring Boot application
 CMD ["java", "-jar", "app.jar"]
